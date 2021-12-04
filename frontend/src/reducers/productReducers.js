@@ -7,9 +7,9 @@ import {
   PRODUCT_DETAIL_FAIL,
 } from '../constants/productConstants';
 
-const productListReducer = (slice = { products: [] }, action) => {
+export const productListReducer = (state = { products: [] }, action) => {
   if (action.type === PRODUCT_LIST_REQUEST) {
-    return { loading: true, ...slice };
+    return { loading: true, ...state };
   }
   if (action.type === PRODUCT_LIST_SUCCESS) {
     return { loading: false, products: action.payload };
@@ -18,12 +18,15 @@ const productListReducer = (slice = { products: [] }, action) => {
     return { loading: false, error: action.payload };
   }
 
-  return slice;
+  return state;
 };
 
-const productDetailReducer = (slice = { product: { reviews: [] } }, action) => {
+export const productDetailReducer = (
+  state = { product: { reviews: [] } },
+  action
+) => {
   if (action.type === PRODUCT_DETAIL_REQUEST) {
-    return { loading: true, ...slice };
+    return { loading: true, ...state };
   }
   if (action.type === PRODUCT_DETAIL_SUCCESS) {
     return { loading: false, product: action.payload };
@@ -32,7 +35,5 @@ const productDetailReducer = (slice = { product: { reviews: [] } }, action) => {
     return { loading: false, error: action.payload };
   }
 
-  return slice;
+  return state;
 };
-
-export { productListReducer, productDetailReducer };
