@@ -5,7 +5,7 @@ import {
   USER_LOGIN_FAIL,
 } from '../constants/userConstants';
 
-export const userLogin = (email, password) => async (dispatch) => {
+export const userLogin = (email, password) => async (dispatch, getState) => {
   try {
     dispatch({ type: USER_LOGIN_REQUEST });
 
@@ -17,9 +17,13 @@ export const userLogin = (email, password) => async (dispatch) => {
       { email, password },
       config
     );
-    console.log(data);
 
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+
+    localStorage.setItem(
+      'userInfo',
+      JSON.stringify(getState().userLogin.userInfo)
+    );
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
