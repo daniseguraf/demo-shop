@@ -2,12 +2,16 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { userLogout } from '../actions/userActions';
 
 const Header = () => {
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.userLogin);
-  console.log(userInfo);
+  // console.log(userInfo);
 
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    dispatch(userLogout());
+  };
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
