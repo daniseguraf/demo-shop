@@ -9,6 +9,9 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
+  USER_UPDATE_PROFILE_REQUEST,
+  USER_UPDATE_PROFILE_SUCCESS,
+  USER_UPDATE_PROFILE_FAIL,
 } from '../constants/userConstants';
 
 const userLoginReducer = (state = {}, action) => {
@@ -54,4 +57,24 @@ const userDetailsReducer = (state = { user: {} }, action) => {
 
   return state;
 };
-export { userLoginReducer, userRegisterReducer, userDetailsReducer };
+
+const userUpdateProfileReducer = (state = {}, action) => {
+  if (action.type === USER_UPDATE_PROFILE_REQUEST) {
+    return { loading: true };
+  }
+  if (action.type === USER_UPDATE_PROFILE_SUCCESS) {
+    return { loading: false, success: true, userInfo: action.payload };
+  }
+  if (action.type === USER_UPDATE_PROFILE_FAIL) {
+    return { loading: false, error: action.payload };
+  }
+
+  return state;
+};
+
+export {
+  userLoginReducer,
+  userRegisterReducer,
+  userDetailsReducer,
+  userUpdateProfileReducer,
+};
