@@ -5,7 +5,7 @@ import {
   ORDER_CREATE_FAIL,
 } from '../constants/orderConstants';
 
-const orderCreate = (order) => async (dispatch, getState) => {
+const createOrder = (order) => async (dispatch, getState) => {
   try {
     dispatch({ type: ORDER_CREATE_REQUEST });
 
@@ -29,4 +29,4 @@ const orderCreate = (order) => async (dispatch, getState) => {
   }
 };
 
-export { orderCreate };
+export { createOrder };
