@@ -4,7 +4,7 @@ import Order from '../models/orderModel.js';
 // @desc Create new order
 // @route POST /api/orders
 // @access Private
-export const addOrderItems = asyncHandler(async (req, res) => {
+const addOrderItems = asyncHandler(async (req, res) => {
   const {
     orderItems,
     shippingAddress,
@@ -38,16 +38,18 @@ export const addOrderItems = asyncHandler(async (req, res) => {
 // @desc Get order by ID
 // @route GET /api/orders/:id
 // @access Private
-export const getOrderById = asyncHandler(async (req, res) => {
-  const data = await Order.findById(req.params.id).populate(
+const getOrderById = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id).populate(
     'user',
     'name email'
   );
 
-  if (!data) {
-    res(404);
-    throw new Error('Order not found');
+  if (order) {
+    res.status(200).json(order);
   } else {
-    res.status(200).json(data);
+    res.status(404);
+    throw new Error('Order not found');
   }
 });
+
+export { addOrderItems, getOrderById };
