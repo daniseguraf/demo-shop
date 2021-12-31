@@ -13,20 +13,21 @@ dotenv.config();
 connectDB();
 
 const app = express();
+const PORT = process.env.PORT || 5000;
+
+const ENVIROMENT = process.env.NODE_ENV;
 
 app.use(express.json());
 
+app.get('/', (req, res) => res.send(`API running on ${PORT}`));
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
-
+app.get('/api/config/paypal', (req, res) =>
+  res.send(process.env.PAYPAL_CLIENT)
+);
 app.use(notFound);
 app.use(errorHandler);
-
-const PORT = process.env.PORT || 5000;
-const ENVIROMENT = process.env.NODE_ENV;
-
-app.get('/', (req, res) => res.send(`API running on ${PORT}`));
 
 app.listen(
   PORT,
