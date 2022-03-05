@@ -1,9 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-
+import { BrowserRouter, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
+
 import Header from './components/Header';
 import Footer from './components/Footer';
+
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
@@ -17,7 +18,7 @@ import OrderScreen from './screens/OrderScreen';
 
 const App = () => {
   return (
-    <Router>
+    <BrowserRouter>
       <Header />
       <main className="py-3">
         <Container>
@@ -26,15 +27,15 @@ const App = () => {
           <Route path="/shipping" component={ShippingScreen} />
           <Route path="/payment" component={PaymentScreen} />
           <Route path="/placeorder" component={PlaceOrderScreen} />
-          <Route path="/product/:id" component={ProductScreen} />
           <Route path="/cart/:id?" component={CartScreen} />
           <Route path="/login" component={LoginScreen} />
           <Route path="/register" component={RegisterScreen} />
+          <Route path="/product/:id" component={ProductScreen} />
           <Route path="/" component={HomeScreen} exact />
         </Container>
       </main>
       <Footer />
-    </Router>
+    </BrowserRouter>
   );
 };
 
