@@ -20,7 +20,7 @@ import {
   orderPayReducer,
 } from './reducers/orderReducers';
 
-const reducer = combineReducers({
+const rootReducer = combineReducers({
   productList: productListReducer,
   productDetail: productDetailReducer,
   cart: cartReducer,
@@ -52,10 +52,11 @@ const initialState = {
   },
   userLogin: { userInfo: userInfoFromStorage },
 };
+
 const middleware = [thunk];
 
 const store = createStore(
-  reducer,
+  rootReducer,
   initialState,
   composeWithDevTools(applyMiddleware(...middleware))
 );
