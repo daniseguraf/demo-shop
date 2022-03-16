@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { productActions } from '../actions/productActions';
+import { productAction } from '../actions/productActions';
 
 import { Row, Col } from 'react-bootstrap';
 import Product from './../components/Product';
@@ -13,7 +13,7 @@ const HomeScreen = () => {
   const { loading, error, products } = productList;
 
   useEffect(() => {
-    dispatch(productActions());
+    dispatch(productAction());
   }, [dispatch]);
 
   return (

@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { productDetailActions } from '../actions/productActions';
-
+import { productDetailAction } from '../actions/productActions';
 import {
   Row,
   Col,
@@ -21,12 +20,11 @@ const ProductScreen = ({ history, match }) => {
   const [qty, setQty] = useState(1);
   const dispatch = useDispatch();
 
-  const { loading, product, error } = useSelector(
-    (state) => state.productDetail
-  );
+  const productDetail = useSelector((state) => state.productDetail);
+  const { loading, product, error } = productDetail;
 
   useEffect(() => {
-    dispatch(productDetailActions(match.params.id));
+    dispatch(productDetailAction(match.params.id));
   }, [dispatch, match.params.id]);
 
   const addToCartHandler = () => {

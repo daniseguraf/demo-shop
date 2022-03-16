@@ -8,7 +8,7 @@ import {
   PRODUCT_DETAIL_FAIL,
 } from '../constants/productConstants';
 
-const productActions = () => {
+const productAction = () => {
   return async (dispatch) => {
     try {
       dispatch({ type: PRODUCT_LIST_REQUEST });
@@ -19,16 +19,15 @@ const productActions = () => {
     } catch (error) {
       dispatch({
         type: PRODUCT_LIST_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
+        payload: error?.response?.data.message
+          ? error.response.data.message
+          : error.message,
       });
     }
   };
 };
 
-const productDetailActions = (id) => {
+const productDetailAction = (id) => {
   return async (dispatch) => {
     try {
       dispatch({ type: PRODUCT_DETAIL_REQUEST });
@@ -48,4 +47,4 @@ const productDetailActions = (id) => {
   };
 };
 
-export { productActions, productDetailActions };
+export { productAction, productDetailAction };
