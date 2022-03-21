@@ -18,8 +18,6 @@ const CartScreen = ({ match, location, history }) => {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
-  console.log(cartItems);
-
   const productId = match.params.id;
   const qty = location.search ? +location.search.split('=')[1] : 1;
 
@@ -41,22 +39,30 @@ const CartScreen = ({ match, location, history }) => {
     <Row>
       <Col md={8}>
         <h1>Shopping Cart</h1>
+
         {cartItems.length === 0 ? (
           <Message>
-            Your cart is empty <Link to="/">Go Back</Link>
+            Your cart is empty <Link to="/">Go Back</Link>.
           </Message>
         ) : (
           <ListGroup variant="flush">
             {cartItems.map((el) => (
               <ListGroup.Item key={el.product}>
                 <Row>
+                  {/* Image */}
                   <Col md={2}>
                     <Image src={el.image} alt={el.name} fluid rounded />
                   </Col>
+
+                  {/* Link to product */}
                   <Col md={3}>
                     <Link to={`/product/${el.product}`}>{el.name}</Link>
                   </Col>
+
+                  {/* Price */}
                   <Col md={2}>{el.price}</Col>
+
+                  {/* Selector item */}
                   <Col md={2}>
                     <Form.Control
                       as="select"
@@ -72,6 +78,8 @@ const CartScreen = ({ match, location, history }) => {
                       ))}
                     </Form.Control>
                   </Col>
+
+                  {/* Remove item from cart */}
                   <Col md={2}>
                     <Button
                       type="button"
@@ -89,7 +97,7 @@ const CartScreen = ({ match, location, history }) => {
       </Col>
       <Col md={4}>
         <Card>
-          <ListGroup>
+          <ListGroup variant="flush">
             <ListGroup.Item>
               <h2>
                 Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
