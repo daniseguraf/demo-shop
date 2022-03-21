@@ -1,6 +1,4 @@
 import express from 'express';
-const router = express.Router();
-
 import {
   authUser,
   registerUser,
@@ -9,8 +7,10 @@ import {
 } from '../controllers/userController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
+const router = express.Router();
+
 router.route('/').post(registerUser);
-router.post('/login', authUser);
+router.route('/login').post(authUser);
 router
   .route('/profile')
   .get(protect, getUserProfile)
