@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { productAction } from '../actions/productActions';
+import { getProductsRequest } from '../features/products/productSlice';
 
 import { Row, Col } from 'react-bootstrap';
 import Product from './../components/Product';
@@ -9,11 +9,14 @@ import Message from '../components/Message';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
-  const productList = useSelector((state) => state.productList);
-  const { loading, error, products } = productList;
+  const { productList, loading, error } = useSelector(
+    (state) => state.products
+  );
+  // console.log(products);
+  // const { loading, error, products } = productList;
 
   useEffect(() => {
-    dispatch(productAction());
+    dispatch(getProductsRequest());
   }, [dispatch]);
 
   return (
@@ -25,7 +28,7 @@ const HomeScreen = () => {
         <Message variant="danger">{error}</Message>
       ) : (
         <Row>
-          {products.map((el) => (
+          {productList.map((el) => (
             <Col key={el._id} sm={12} md={6} lg={4}>
               <Product {...el} />
             </Col>

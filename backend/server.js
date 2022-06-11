@@ -13,7 +13,6 @@ connectDB();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-
 const ENVIROMENT = process.env.NODE_ENV;
 
 app.use(express.json());
