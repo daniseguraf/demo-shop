@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { productDetailAction } from '../actions/productActions';
+import { getProductDetailStart } from '../features/productDetail/productDetailSlice';
 import {
   Row,
   Col,
@@ -24,7 +24,7 @@ const ProductScreen = ({ history, match }) => {
   const { loading, product, error } = productDetail;
 
   useEffect(() => {
-    dispatch(productDetailAction(match.params.id));
+    dispatch(getProductDetailStart({ id: match.params.id }));
   }, [dispatch, match.params.id]);
 
   const addToCartHandler = () => {

@@ -7,21 +7,22 @@ const productsSlice = createSlice({
   initialState,
   reducers: {
     // GET PRODUCTS
-    getProductsRequest: (state) => {
+    getProductsStart: (state) => {
       state.loading = true;
     },
     getProductsSuccess: (state, action) => {
       state.loading = false;
       state.productList = action.payload;
     },
-    getProductsError: (state, action) => {
+    getProductsFailed: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },
+    // GET PRODUCT DETAIL
   },
 });
 
-export const { getProductsRequest, getProductsSuccess, getProductsError } =
+export const { getProductsStart, getProductsSuccess, getProductsFailed } =
   productsSlice.actions;
 
 export default productsSlice.reducer;

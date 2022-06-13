@@ -10,29 +10,28 @@ import {
 
 import { getProductsApi } from '../../app/api';
 import {
-  getProductsRequest,
+  getProductsStart,
   getProductsSuccess,
-  getProductsError,
-} from './productSlice';
+  getProductsFailed,
+} from './productsSlice';
 
 // Get products
-function* onGetProductsRequest() {
+function* onGetProductsStart() {
   try {
     const response = yield call(getProductsApi);
-    console.log('response:', response);
 
     if (response.status === 200) {
       yield delay(250);
       yield put(getProductsSuccess(response.data));
     }
   } catch (error) {
-    yield put(getProductsError(error?.response?.data));
+    yield put(getProductsFailed(error?.response?.data));
   }
 }
 
 // Listeners
 function* onGetProducts() {
-  yield takeEvery(getProductsRequest.type, onGetProductsRequest);
+  yield takeEvery(getProductsStart.type, onGetProductsStart);
 }
 
-export const productSagas = [fork(onGetProducts)];
+export const productsSagas = [fork(onGetProducts)];

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProductsRequest } from '../features/products/productSlice';
+import { getProductsStart } from '../features/products/productsSlice';
 
 import { Row, Col } from 'react-bootstrap';
 import Product from './../components/Product';
@@ -12,11 +12,9 @@ const HomeScreen = () => {
   const { productList, loading, error } = useSelector(
     (state) => state.products
   );
-  // console.log(products);
-  // const { loading, error, products } = productList;
 
   useEffect(() => {
-    dispatch(getProductsRequest());
+    dispatch(getProductsStart());
   }, [dispatch]);
 
   return (
