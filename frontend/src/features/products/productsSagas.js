@@ -1,12 +1,4 @@
-import {
-  take,
-  takeEvery,
-  takeLatest,
-  put,
-  delay,
-  fork,
-  call,
-} from 'redux-saga/effects';
+import { takeEvery, put, delay, fork, call } from 'redux-saga/effects';
 
 import { getProductsApi } from '../../app/api';
 import {
@@ -15,7 +7,7 @@ import {
   getProductsFailed,
 } from './productsSlice';
 
-// Get products
+// Worker sagas
 function* onGetProductsStart() {
   try {
     const response = yield call(getProductsApi);
@@ -29,7 +21,7 @@ function* onGetProductsStart() {
   }
 }
 
-// Listeners
+// Watcher sagas
 function* onGetProducts() {
   yield takeEvery(getProductsStart.type, onGetProductsStart);
 }
