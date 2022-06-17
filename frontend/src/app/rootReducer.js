@@ -2,8 +2,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 
 import productsReducer from '../features/products/productsSlice';
 import productDetailReducer from '../features/productDetail/productDetailSlice';
-
-// import { cartReducer } from '../reducers/cartReducers';
+import cartReducer from '../features/cart/cartSlice';
 
 // import {
 //   userLoginReducer,
@@ -21,7 +20,7 @@ import productDetailReducer from '../features/productDetail/productDetailSlice';
 const rootReducer = combineReducers({
   products: productsReducer,
   productDetail: productDetailReducer,
-  // cart: cartReducer,
+  cart: cartReducer,
   // userLogin: userLoginReducer,
   // userRegister: userRegisterReducer,
   // userDetails: userDetailsReducer,

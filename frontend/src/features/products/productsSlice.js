@@ -6,7 +6,6 @@ const productsSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
-    // GET PRODUCTS
     getProductsStart: (state) => {
       state.loading = true;
     },
@@ -18,7 +17,6 @@ const productsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    // GET PRODUCT DETAIL
   },
 });
 

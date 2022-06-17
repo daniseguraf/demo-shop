@@ -10,7 +10,9 @@ import {
   Button,
   Card,
 } from 'react-bootstrap';
-import { addToCart, removeFromCart } from '../actions/cartActions';
+// import { addToCartStart, removeFromCart } from '../features/cart/cartSlice';
+import { addToCartStart } from '../features/cart/cartSlice';
+
 import Message from '../components/Message';
 
 const CartScreen = ({ match, location, history }) => {
@@ -23,13 +25,13 @@ const CartScreen = ({ match, location, history }) => {
 
   useEffect(() => {
     if (productId) {
-      dispatch(addToCart(productId, qty));
+      dispatch(addToCartStart({ productId, qty }));
     }
   }, [dispatch, productId, qty]);
 
-  const removeFromCartHandler = (id) => {
-    dispatch(removeFromCart(id));
-  };
+  // const removeFromCartHandler = (id) => {
+  //   dispatch(removeFromCart(id));
+  // };
 
   const checkoutHandler = () => {
     history.push('/login?redirect=shipping');
@@ -68,7 +70,7 @@ const CartScreen = ({ match, location, history }) => {
                       as="select"
                       value={el.qty}
                       onChange={(e) =>
-                        dispatch(addToCart(el.product, +e.target.value))
+                        dispatch(addToCartStart(el.product, +e.target.value))
                       }
                     >
                       {[...Array(el.countInStock).keys()].map((val) => (
@@ -80,7 +82,7 @@ const CartScreen = ({ match, location, history }) => {
                   </Col>
 
                   {/* Remove item from cart */}
-                  <Col md={2}>
+                  {/* <Col md={2}>
                     <Button
                       type="button"
                       variant="light"
@@ -88,7 +90,7 @@ const CartScreen = ({ match, location, history }) => {
                     >
                       <i className="fas fa-trash"></i>
                     </Button>
-                  </Col>
+                  </Col> */}
                 </Row>
               </ListGroup.Item>
             ))}
