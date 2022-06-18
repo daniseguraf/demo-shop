@@ -1,5 +1,4 @@
 import { takeEvery, put, delay, fork, call } from 'redux-saga/effects';
-
 import { getProductsApi } from '../../app/api';
 import {
   getProductsStart,
@@ -17,7 +16,13 @@ function* onGetProductsStart() {
       yield put(getProductsSuccess(response.data));
     }
   } catch (error) {
-    yield put(getProductsFailed(error?.response?.data));
+    yield put(
+      getProductsFailed(
+        error?.response?.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    );
   }
 }
 
