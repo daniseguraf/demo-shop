@@ -8,6 +8,6 @@ export const getProductDetailApi = async (id) => {
   return await axios.get(`/api/products/${id}`);
 };
 
-export const addToCartApi = async (product) => {
-  return await axios.get(`/api/products/${product.id}`);
+export const addToCartApi = async (id) => {
+  return await axios.get(`/api/products/${id}`);
 };

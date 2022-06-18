@@ -21,10 +21,15 @@ const cartSlice = createSlice({
         state.cartItems = [...state.cartItems, item];
       }
 
-      state.cartItems = state.loading = false;
+      state.loading = false;
+    },
+    addToCartFailed: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
     },
   },
 });
 
-export const { addToCartStart, addToCartSuccess } = cartSlice.actions;
+export const { addToCartStart, addToCartSuccess, addToCartFailed } =
+  cartSlice.actions;
 export default cartSlice.reducer;

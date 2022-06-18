@@ -10,15 +10,13 @@ import {
   Button,
   Card,
 } from 'react-bootstrap';
-// import { addToCartStart, removeFromCart } from '../features/cart/cartSlice';
 import { addToCartStart } from '../features/cart/cartSlice';
-
 import Message from '../components/Message';
 
 const CartScreen = ({ match, location, history }) => {
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
-  const { cartItems } = cart;
+
+  const { cartItems, error } = useSelector((state) => state.cart);
 
   const productId = match.params.id;
   const qty = location.search ? +location.search.split('=')[1] : 1;
@@ -42,7 +40,9 @@ const CartScreen = ({ match, location, history }) => {
       <Col md={8}>
         <h1>Shopping Cart</h1>
 
-        {cartItems.length === 0 ? (
+        {error && <Message variant="danger">{error}</Message>}
+
+        {!error && cartItems.length === 0 ? (
           <Message>
             Your cart is empty <Link to="/">Go Back</Link>.
           </Message>
