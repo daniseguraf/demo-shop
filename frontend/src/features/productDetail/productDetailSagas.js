@@ -8,7 +8,7 @@ import {
 } from './productDetailSlice';
 
 // Get products
-function* onGetProductDetailStart(action) {
+function* workerGetProductDetailStart(action) {
   try {
     const response = yield call(getProductDetailApi, action.payload.id);
 
@@ -20,9 +20,9 @@ function* onGetProductDetailStart(action) {
   }
 }
 
-// Listeners
-function* onGetProductDetail() {
-  yield takeLatest(getProductDetailStart.type, onGetProductDetailStart);
+// Watchers
+function* watcherGetProductDetail() {
+  yield takeLatest(getProductDetailStart.type, workerGetProductDetailStart);
 }
 
-export const productsDetailSagas = [fork(onGetProductDetail)];
+export const productsDetailSagas = [fork(watcherGetProductDetail)];

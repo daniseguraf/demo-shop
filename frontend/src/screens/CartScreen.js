@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import {
   Row,
   Col,
@@ -13,13 +13,17 @@ import {
 import { addToCartStart } from '../features/cart/cartSlice';
 import Message from '../components/Message';
 
-const CartScreen = ({ match, location, history }) => {
+const CartScreen = () => {
   const dispatch = useDispatch();
+  const params = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const { cartItems, error } = useSelector((state) => state.cart);
 
-  const productId = match.params.id;
+  const productId = params.id;
   const qty = location.search ? +location.search.split('=')[1] : 1;
+  console.log('qty:', qty);
 
   useEffect(() => {
     if (productId) {
@@ -32,7 +36,7 @@ const CartScreen = ({ match, location, history }) => {
   // };
 
   const checkoutHandler = () => {
-    history.push('/login?redirect=shipping');
+    navigate('/login?redirect=shipping');
   };
 
   return (
