@@ -23,7 +23,6 @@ const CartScreen = () => {
 
   const productId = params.id;
   const qty = location.search ? +location.search.split('=')[1] : 1;
-  console.log('qty:', qty);
 
   useEffect(() => {
     if (productId) {
