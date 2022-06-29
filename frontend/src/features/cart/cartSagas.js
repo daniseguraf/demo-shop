@@ -1,12 +1,19 @@
-import { takeEvery, put, fork, call } from 'redux-saga/effects';
+import { takeEvery, put, fork, call, select } from 'redux-saga/effects';
 import { addToCartApi } from '../../app/api';
-import { addToCartStart, addToCartSuccess, addToCartFailed } from './cartSlice';
+import {
+  addToCartStart,
+  addToCartSuccess,
+  addToCartFailed,
+  removeFromCartStart,
+  removeFromCartSuccess,
+} from './cartSlice';
 
 // Workers
 function* onAddToCartStart(action) {
   const { productId, qty } = action.payload;
   try {
     const response = yield call(addToCartApi, productId);
+
     if (response.status === 200) {
       yield put(
         addToCartSuccess({
@@ -18,10 +25,19 @@ function* onAddToCartStart(action) {
           qty,
         })
       );
+      const { cartItems } = yield select((state) => state.cart);
+      yield localStorage.setItem('cartItems', JSON.stringify(cartItems));
     }
   } catch (error) {
     yield put(addToCartFailed(error.response.data.message));
   }
+}
+
+function* onRemoveFromCartStart(action) {
+  yield put(removeFromCartSuccess(action.payload));
+
+  const { cartItems } = yield select((state) => state.cart);
+  yield localStorage.setItem('cartItems', JSON.stringify(cartItems));
 }
 
 // Watchers
@@ -29,4 +45,8 @@ function* watcherAddToCart() {
   yield takeEvery(addToCartStart.type, onAddToCartStart);
 }
 
-export const cartSagas = [fork(watcherAddToCart)];
+function* watcherRemoveFromCart() {
+  yield takeEvery(removeFromCartStart.type, onRemoveFromCartStart);
+}
+
+export const cartSagas = [fork(watcherAddToCart), fork(watcherRemoveFromCart)];

@@ -27,9 +27,22 @@ const cartSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
+    removeFromCartStart: (state) => {
+      state.loading = true;
+    },
+    removeFromCartSuccess: (state, action) => {
+      const { id } = action.payload;
+      state.cartItems = state.cartItems.filter((el) => el.id !== id);
+      state.loading = false;
+    },
   },
 });
 
-export const { addToCartStart, addToCartSuccess, addToCartFailed } =
-  cartSlice.actions;
+export const {
+  addToCartStart,
+  addToCartSuccess,
+  addToCartFailed,
+  removeFromCartStart,
+  removeFromCartSuccess,
+} = cartSlice.actions;
 export default cartSlice.reducer;

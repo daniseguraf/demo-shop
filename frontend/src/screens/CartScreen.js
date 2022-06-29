@@ -10,7 +10,10 @@ import {
   Button,
   Card,
 } from 'react-bootstrap';
-import { addToCartStart } from '../features/cart/cartSlice';
+import {
+  addToCartStart,
+  removeFromCartStart,
+} from '../features/cart/cartSlice';
 import Message from '../components/Message';
 
 const CartScreen = () => {
@@ -19,10 +22,10 @@ const CartScreen = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { cartItems, error } = useSelector((state) => state.cart);
-
   const productId = params.id;
   const qty = location.search ? +location.search.split('=')[1] : 1;
+
+  const { cartItems, error } = useSelector((state) => state.cart);
 
   useEffect(() => {
     if (productId) {
@@ -30,9 +33,9 @@ const CartScreen = () => {
     }
   }, [dispatch, productId, qty]);
 
-  // const removeFromCartHandler = (id) => {
-  //   dispatch(removeFromCart(id));
-  // };
+  const removeFromCartHandler = (id) => {
+    dispatch(removeFromCartStart({ id }));
+  };
 
   const checkoutHandler = () => {
     navigate('/login?redirect=shipping');
@@ -52,7 +55,7 @@ const CartScreen = () => {
         ) : (
           <ListGroup variant="flush">
             {cartItems.map((el) => (
-              <ListGroup.Item key={el.product}>
+              <ListGroup.Item key={el.id}>
                 <Row>
                   {/* Image */}
                   <Col md={2}>
@@ -61,7 +64,7 @@ const CartScreen = () => {
 
                   {/* Link to product */}
                   <Col md={3}>
-                    <Link to={`/product/${el.product}`}>{el.name}</Link>
+                    <Link to={`/product/${el.id}`}>{el.name}</Link>
                   </Col>
 
                   {/* Price */}
@@ -73,7 +76,12 @@ const CartScreen = () => {
                       as="select"
                       value={el.qty}
                       onChange={(e) =>
-                        dispatch(addToCartStart(el.product, +e.target.value))
+                        dispatch(
+                          addToCartStart({
+                            productId: el.id,
+                            qty: +e.target.value,
+                          })
+                        )
                       }
                     >
                       {[...Array(el.countInStock).keys()].map((val) => (
@@ -85,15 +93,15 @@ const CartScreen = () => {
                   </Col>
 
                   {/* Remove item from cart */}
-                  {/* <Col md={2}>
+                  <Col md={2}>
                     <Button
                       type="button"
                       variant="light"
-                      onClick={() => removeFromCartHandler(el.product)}
+                      onClick={() => removeFromCartHandler(el.id)}
                     >
                       <i className="fas fa-trash"></i>
                     </Button>
-                  </Col> */}
+                  </Col>
                 </Row>
               </ListGroup.Item>
             ))}
