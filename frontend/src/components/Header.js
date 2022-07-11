@@ -6,8 +6,8 @@ import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 
 const Header = () => {
   const dispatch = useDispatch();
-  // const { userInfo } = useSelector((state) => state.userLogin);
-
+  const { userInfo } = useSelector((state) => state.user);
+  // const userInfo = null;
   const handleLogout = () => {
     // dispatch(userLogout());
   };
@@ -21,11 +21,11 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
-              <Link to="/cart">
+              <Link to="/cart" style={{ color: 'white', marginRight: '1rem' }}>
                 <i className="fas fa-shopping-cart"></i> Cart
               </Link>
 
-              {/* {userInfo ? (
+              {userInfo ? (
                 <NavDropdown title={userInfo.name} id="username">
                   <Link to="/profile">
                     <NavDropdown.Item>Profile</NavDropdown.Item>
@@ -35,12 +35,10 @@ const Header = () => {
                   </NavDropdown.Item>
                 </NavDropdown>
               ) : (
-                <Link to="/login">
-                  <Nav.Link>
-                    <i className="fas fa-user"></i> Sign In
-                  </Nav.Link>
+                <Link to="/login" style={{ color: 'white' }}>
+                  <i className="fas fa-user"></i> Sign In
                 </Link>
-              )} */}
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

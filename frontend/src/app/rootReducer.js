@@ -3,6 +3,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 import productsReducer from '../features/products/productsSlice';
 import productDetailReducer from '../features/productDetail/productDetailSlice';
 import cartReducer from '../features/cart/cartSlice';
+import userReducer from '../features/user/userSlice';
 
 // import {
 //   userLoginReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   products: productsReducer,
   productDetail: productDetailReducer,
   cart: cartReducer,
+  user: userReducer,
   // userLogin: userLoginReducer,
   // userRegister: userRegisterReducer,
   // userDetails: userDetailsReducer,
