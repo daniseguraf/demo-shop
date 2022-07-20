@@ -4,7 +4,7 @@ import {
   userLoginStart,
   userLoginSucess,
   userLoginFailed,
-  userLoginLogout,
+  userLogout,
 } from './userSlice';
 
 // Worker sagas
@@ -16,9 +16,7 @@ function* onUserLoginStart(action) {
     if (response.status === 200) {
       yield delay(250);
       yield put(userLoginSucess(response.data));
-      yield put(
-        localStorage.setItem('userInfo', JSON.stringify(response.data))
-      );
+      yield localStorage.setItem('userInfo', JSON.stringify(response.data));
     }
   } catch (error) {
     yield put(
@@ -31,9 +29,17 @@ function* onUserLoginStart(action) {
   }
 }
 
+function* onUserLogoutStart() {
+  yield localStorage.removeItem('userInfo');
+}
+
 // Watcher sagas
 function* onUserLogin() {
   yield takeEvery(userLoginStart.type, onUserLoginStart);
 }
 
-export const userSagas = [fork(onUserLogin)];
+function* onUserLogout() {
+  yield takeEvery(userLogout.type, onUserLogoutStart);
+}
+
+export const userSagas = [fork(onUserLogin), fork(onUserLogout)];

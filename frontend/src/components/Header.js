@@ -2,14 +2,14 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
-// import { userLogout } from '../actions/userActions';
+import { userLogout } from '../features/user/userSlice';
 
 const Header = () => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.user);
-  // const userInfo = null;
+
   const handleLogout = () => {
-    // dispatch(userLogout());
+    dispatch(userLogout());
   };
   return (
     <header>
@@ -20,15 +20,15 @@ const Header = () => {
           </Link>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ml-auto">
+            <Nav className="ml-auto" style={{ alignItems: 'center' }}>
               <Link to="/cart" style={{ color: 'white', marginRight: '1rem' }}>
                 <i className="fas fa-shopping-cart"></i> Cart
               </Link>
 
-              {userInfo ? (
+              {userInfo && Object.keys(userInfo).length ? (
                 <NavDropdown title={userInfo.name} id="username">
                   <Link to="/profile">
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                    <NavDropdown.Item as="span">Profile</NavDropdown.Item>
                   </Link>
                   <NavDropdown.Item onClick={handleLogout}>
                     Logout
