@@ -18,3 +18,10 @@ export const userLoginApi = async (data) => {
   };
   return await axios.post('/api/users/login', data, config);
 };
+
+export const userRegisterApi = async (data) => {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+  return await axios.post('/api/users', data, config);
+};

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
-import { userRegister } from '../actions/userActions';
+import { userRegisterStart } from '../features/user/userSlice';
 
-const RegisterScreen = ({ location, history }) => {
+const RegisterScreen = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,23 +14,25 @@ const RegisterScreen = ({ location, history }) => {
   const [message, setMessage] = useState(null);
 
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const { userInfo, error } = useSelector((state) => state.userRegister);
+  const { userInfo, error } = useSelector((state) => state.user);
 
   const redirect = location.search ? location.search.split('=')[1] : '/';
 
   useEffect(() => {
     if (userInfo) {
-      history.push(redirect);
+      navigate(redirect);
     }
-  }, [history, userInfo, redirect]);
+  }, [navigate, userInfo, redirect]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setMessage('Passwords do not match');
     } else {
-      dispatch(userRegister(name, email, password));
+      dispatch(userRegisterStart({ name, email, password }));
     }
   };
 
@@ -45,42 +47,42 @@ const RegisterScreen = ({ location, history }) => {
           <Form.Label>Name</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           ></Form.Control>
         </Form.Group>
 
+        <br />
         <Form.Group controlId="email">
           <Form.Label>Email Address</Form.Label>
           <Form.Control
             type="email"
-            placeholder="Enter email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           ></Form.Control>
         </Form.Group>
 
+        <br />
         <Form.Group controlId="password">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Enter password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
 
+        <br />
         <Form.Group controlId="confirmPassword">
           <Form.Label>Confirm password</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Confirm password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
 
+        <br />
         <Button type="submit" variant="primary">
           Register
         </Button>
@@ -90,7 +92,7 @@ const RegisterScreen = ({ location, history }) => {
         <Col>
           Have an account?
           <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>
-            Register
+            Login
           </Link>
         </Col>
       </Row>
