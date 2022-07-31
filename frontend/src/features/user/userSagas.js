@@ -1,5 +1,5 @@
 import { takeEvery, put, delay, fork, call } from 'redux-saga/effects';
-import { userLoginApi, userRegisterApi } from '../../app/api';
+import { userLoginApi, userRegisterApi, userDetailsApi } from '../../app/api';
 import {
   userLoginStart,
   userLoginSucess,
@@ -8,6 +8,9 @@ import {
   userRegisterStart,
   userRegisterSucess,
   userRegisterFailed,
+  userDetailsStart,
+  userDetailsSucess,
+  userDetailsFailed,
 } from './userSlice';
 
 // Worker sagas
@@ -38,7 +41,6 @@ function* onUserLogoutStart() {
 
 function* onUserRegisterStart(action) {
   const { name, email, password } = action.payload;
-  console.log(action.payload);
 
   try {
     const response = yield call(userRegisterApi, { name, email, password });
@@ -61,6 +63,26 @@ function* onUserRegisterStart(action) {
   }
 }
 
+function* onUserDetailsStart(action) {
+  const { id, token } = action.payload;
+  try {
+    const response = yield call(userDetailsApi, { id, token });
+
+    if (response.status === 200) {
+      yield delay(250);
+      yield put(userDetailsSucess(response.data));
+    }
+  } catch (error) {
+    yield put(
+      userDetailsFailed(
+        error?.response?.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    );
+  }
+}
+
 // Watcher sagas
 function* onUserLogin() {
   yield takeEvery(userLoginStart.type, onUserLoginStart);
@@ -74,8 +96,13 @@ function* onUserRegister() {
   yield takeEvery(userRegisterStart.type, onUserRegisterStart);
 }
 
+function* onUserDetails() {
+  yield takeEvery(userDetailsStart.type, onUserDetailsStart);
+}
+
 export const userSagas = [
   fork(onUserLogin),
   fork(onUserLogout),
   fork(onUserRegister),
+  fork(onUserDetails),
 ];

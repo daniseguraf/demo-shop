@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { userDetails, userUpdateProfile } from '../actions/userActions';
+import { userDetailsStart } from '../features/user/userSlice';
 
-const ProfileScreen = ({ location, history }) => {
+const ProfileScreen = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,23 +15,30 @@ const ProfileScreen = ({ location, history }) => {
   const [message, setMessage] = useState(null);
 
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const { userInfo } = useSelector((state) => state.userLogin);
-  const { loading, user, error } = useSelector((state) => state.userDetails);
-  const { success } = useSelector((state) => state.userUpdateProfile);
+  const { userInfo } = useSelector((state) => state.user);
+  const { userDetails, error, loading } = useSelector((state) => state.user);
+
+  // const { loading, userDetails, error } = useSelector(
+  //   (state) => state.user.userDetails
+  // );
+
+  // const { success } = useSelector((state) => state.userUpdateProfile);
 
   useEffect(() => {
     if (!userInfo) {
-      history.push('/login');
+      navigate('/login');
     } else {
-      if (!user.name) {
-        dispatch(userDetails('profile'));
+      if (!userDetails) {
+        dispatch(userDetailsStart({ id: 'profile', token: userInfo.token }));
       } else {
-        setName(user.name);
-        setEmail(user.email);
+        setName(userDetails.name);
+        setEmail(userDetails.email);
       }
     }
-  }, [userInfo, history, dispatch, user.name, user.email]);
+  }, [userInfo, navigate, dispatch, userDetails]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,7 +46,7 @@ const ProfileScreen = ({ location, history }) => {
     if (password !== confirmPassword) {
       setMessage('Passwords do not match');
     } else {
-      dispatch(userUpdateProfile({ id: user._id, name, email, password }));
+      // dispatch(userUpdateProfile({ id: user._id, name, email, password }));
     }
   };
 
@@ -49,7 +57,7 @@ const ProfileScreen = ({ location, history }) => {
 
         {message && <Message variant="danger">{message}</Message>}
         {error && <Message variant="danger">{error}</Message>}
-        {success && <Message variant="success">Data updated</Message>}
+        {/* {success && <Message variant="success">Data updated</Message>} */}
 
         {loading && <Loader />}
         <Form onSubmit={handleSubmit}>

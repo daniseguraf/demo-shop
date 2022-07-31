@@ -25,3 +25,14 @@ export const userRegisterApi = async (data) => {
   };
   return await axios.post('/api/users', data, config);
 };
+
+export const userDetailsApi = async (data) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${data.token}`,
+    },
+  };
+
+  return await axios.get(`/api/users/${data.id}`, config);
+};
