@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
-import { userLoginStart } from '../features/user/userSlice';
+import { userLoginStart } from '../features/user/userLoginSlice';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -15,7 +15,7 @@ const LoginScreen = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { loading, userInfo, error } = useSelector((state) => state.user);
+  const { loading, userInfo, error } = useSelector((state) => state.userLogin);
 
   const redirect = location.search ? location.search.split('=')[1] : '/';
 

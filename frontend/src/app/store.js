@@ -29,7 +29,7 @@ const userInfoFromStorage = localStorage.getItem('userInfo')
 
 const preloadedState = {
   cart: { cartItems: cartItemsFromStorage },
-  user: { userInfo: userInfoFromStorage },
+  userLogin: { userInfo: userInfoFromStorage },
 };
 
 const store = configureStore({

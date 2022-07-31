@@ -36,3 +36,14 @@ export const userDetailsApi = async (data) => {
 
   return await axios.get(`/api/users/${data.id}`, config);
 };
+
+export const userUpdateProfileApi = async (data) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${data.token}`,
+    },
+  };
+
+  return await axios.put(`/api/users/profile`, data.user, config);
+};

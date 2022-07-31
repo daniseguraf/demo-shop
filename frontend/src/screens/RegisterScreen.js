@@ -4,7 +4,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
-import { userRegisterStart } from '../features/user/userSlice';
+import { userRegisterStart } from '../features/user/userRegisterSlice';
 
 const RegisterScreen = () => {
   const [name, setName] = useState('');
@@ -17,7 +17,7 @@ const RegisterScreen = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { userInfo, error } = useSelector((state) => state.user);
+  const { userInfo, error } = useSelector((state) => state.userRegister);
 
   const redirect = location.search ? location.search.split('=')[1] : '/';
 

@@ -1,17 +1,35 @@
 import { takeEvery, put, delay, fork, call } from 'redux-saga/effects';
-import { userLoginApi, userRegisterApi, userDetailsApi } from '../../app/api';
+import {
+  userLoginApi,
+  userRegisterApi,
+  userDetailsApi,
+  userUpdateProfileApi,
+} from '../../app/api';
+
 import {
   userLoginStart,
-  userLoginSucess,
+  userLoginSuccess,
   userLoginFailed,
   userLogout,
+} from './userLoginSlice';
+
+import {
   userRegisterStart,
   userRegisterSucess,
   userRegisterFailed,
+} from './userRegisterSlice';
+
+import {
   userDetailsStart,
-  userDetailsSucess,
+  userDetailsSuccess,
   userDetailsFailed,
-} from './userSlice';
+} from './userDetailsSlice';
+
+import {
+  userUpdateProfileStart,
+  userUpdateProfileSuccess,
+  userUpdateProfileFailed,
+} from './userUpdateProfileSlice';
 
 // Worker sagas
 function* onUserLoginStart(action) {
@@ -21,7 +39,7 @@ function* onUserLoginStart(action) {
     const response = yield call(userLoginApi, { email, password });
     if (response.status === 200) {
       yield delay(250);
-      yield put(userLoginSucess(response.data));
+      yield put(userLoginSuccess(response.data));
       yield localStorage.setItem('userInfo', JSON.stringify(response.data));
     }
   } catch (error) {
@@ -49,7 +67,7 @@ function* onUserRegisterStart(action) {
     if (response.status === 201) {
       yield delay(250);
       yield put(userRegisterSucess(response.data));
-      yield put(userLoginSucess(response.data));
+      yield put(userLoginSuccess(response.data));
       yield localStorage.setItem('userInfo', JSON.stringify(response.data));
     }
   } catch (error) {
@@ -70,11 +88,32 @@ function* onUserDetailsStart(action) {
 
     if (response.status === 200) {
       yield delay(250);
-      yield put(userDetailsSucess(response.data));
+      yield put(userDetailsSuccess(response.data));
     }
   } catch (error) {
     yield put(
       userDetailsFailed(
+        error?.response?.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    );
+  }
+}
+
+function* onUserUpdateProfileStart(action) {
+  const { user, token } = action.payload;
+
+  try {
+    const response = yield call(userUpdateProfileApi, { user, token });
+
+    if (response.status === 200) {
+      yield delay(250);
+      yield put(userUpdateProfileSuccess(response.data));
+    }
+  } catch (error) {
+    yield put(
+      userUpdateProfileFailed(
         error?.response?.data.message
           ? error.response.data.message
           : error.message
@@ -100,9 +139,14 @@ function* onUserDetails() {
   yield takeEvery(userDetailsStart.type, onUserDetailsStart);
 }
 
+function* onUserUpdateProfile() {
+  yield takeEvery(userUpdateProfileStart.type, onUserUpdateProfileStart);
+}
+
 export const userSagas = [
   fork(onUserLogin),
   fork(onUserLogout),
   fork(onUserRegister),
   fork(onUserDetails),
+  fork(onUserUpdateProfile),
 ];

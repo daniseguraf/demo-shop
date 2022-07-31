@@ -3,14 +3,10 @@ import { combineReducers } from '@reduxjs/toolkit';
 import productsReducer from '../features/products/productsSlice';
 import productDetailReducer from '../features/productDetail/productDetailSlice';
 import cartReducer from '../features/cart/cartSlice';
-import userReducer from '../features/user/userSlice';
-
-// import {
-//   userLoginReducer,
-//   userRegisterReducer,
-//   userDetailsReducer,
-//   userUpdateProfileReducer,
-// } from '../reducers/userReducers';
+import userLoginReducer from '../features/user/userLoginSlice';
+import userRegisterReducer from '../features/user/userRegisterSlice';
+import userDetailsReducer from '../features/user/userDetailsSlice';
+import userUpdateProfileReducer from '../features/user/userUpdateProfileSlice';
 
 // import {
 //   orderCreateReducer,
@@ -22,11 +18,10 @@ const rootReducer = combineReducers({
   products: productsReducer,
   productDetail: productDetailReducer,
   cart: cartReducer,
-  user: userReducer,
-  // userLogin: userLoginReducer,
-  // userRegister: userRegisterReducer,
-  // userDetails: userDetailsReducer,
-  // userUpdateProfile: userUpdateProfileReducer,
+  userLogin: userLoginReducer,
+  userRegister: userRegisterReducer,
+  userDetails: userDetailsReducer,
+  userUpdateProfile: userUpdateProfileReducer,
   // orderCreate: orderCreateReducer,
   // orderDetails: orderDetailsReducer,
   // orderPay: orderPayReducer,
