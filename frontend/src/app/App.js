@@ -11,7 +11,7 @@ import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import ShippingScreen from '../screens/ShippingScreen';
-// import PaymentScreen from '../screens/PaymentScreen';
+import PaymentScreen from '../screens/PaymentScreen';
 // import PlaceOrderScreen from '../screens/PlaceOrderScreen';
 // import OrderScreen from '../screens/OrderScreen';
 
@@ -30,9 +30,9 @@ const App = () => {
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/register" element={<RegisterScreen />} />
             <Route path="/profile" element={<ProfileScreen />} />
+            <Route path="/payment" element={<PaymentScreen />} />
 
             {/* <Route path="/order/:id" element={<OrderScreen/>} />
-          <Route path="/payment" element={<PaymentScreen/>} />
           <Route path="/placeorder" element={<PlaceOrderScreen/>} />
            */}
           </Routes>
