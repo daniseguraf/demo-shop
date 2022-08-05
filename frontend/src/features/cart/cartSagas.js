@@ -7,6 +7,7 @@ import {
   removeFromCartStart,
   removeFromCartSuccess,
   saveShippingAddressSuccess,
+  cartSavePaymentMethod,
 } from './cartSlice';
 
 // Workers
@@ -45,6 +46,10 @@ function* onSaveShippingAddressSuccessStart(action) {
   yield localStorage.setItem('shippingAddress', JSON.stringify(action.payload));
 }
 
+function* onCartSavePaymentMethodStart(action) {
+  yield localStorage.setItem('paymentMethod', JSON.stringify(action.payload));
+}
+
 // Watchers
 function* watcherAddToCart() {
   yield takeEvery(addToCartStart.type, onAddToCartStart);
@@ -61,8 +66,13 @@ function* onSaveShippingAddressSuccess() {
   );
 }
 
+function* onCartSavePaymentMethod() {
+  yield takeEvery(cartSavePaymentMethod.type, onCartSavePaymentMethodStart);
+}
+
 export const cartSagas = [
   fork(watcherAddToCart),
   fork(watcherRemoveFromCart),
   fork(onSaveShippingAddressSuccess),
+  fork(onCartSavePaymentMethod),
 ];
