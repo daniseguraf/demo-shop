@@ -12,7 +12,7 @@ import RegisterScreen from '../screens/RegisterScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import ShippingScreen from '../screens/ShippingScreen';
 import PaymentScreen from '../screens/PaymentScreen';
-// import PlaceOrderScreen from '../screens/PlaceOrderScreen';
+import PlaceOrderScreen from '../screens/PlaceOrderScreen';
 // import OrderScreen from '../screens/OrderScreen';
 
 const App = () => {
@@ -31,10 +31,10 @@ const App = () => {
             <Route path="/register" element={<RegisterScreen />} />
             <Route path="/profile" element={<ProfileScreen />} />
             <Route path="/payment" element={<PaymentScreen />} />
+            <Route path="/placeorder" element={<PlaceOrderScreen />} />
 
             {/* <Route path="/order/:id" element={<OrderScreen/>} />
-          <Route path="/placeorder" element={<PlaceOrderScreen/>} />
-           */}
+             */}
           </Routes>
         </Container>
       </main>

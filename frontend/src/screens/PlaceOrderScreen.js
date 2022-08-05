@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
@@ -7,9 +7,13 @@ import CheckoutSteps from '../components/CheckoutSteps';
 
 import { createOrder } from '../actions/orderActions';
 
-const PlaceOrderScreen = ({ history }) => {
-  const cart = useSelector((state) => state.cart);
+const PlaceOrderScreen = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const cart = useSelector((state) => state.cart);
+
+  console.log('cart:', cart);
 
   // Calculate prices
   const addDecimals = (num) => (Math.round(num * 100) / 100).toFixed(2);
@@ -20,6 +24,7 @@ const PlaceOrderScreen = ({ history }) => {
 
   cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 100);
   cart.taxPrice = addDecimals(Number(0.15 * cart.itemsPrice).toFixed(2));
+
   cart.totalPrice = (
     Number(cart.itemsPrice) +
     Number(cart.shippingPrice) +
@@ -31,10 +36,10 @@ const PlaceOrderScreen = ({ history }) => {
 
   useEffect(() => {
     if (success) {
-      history.push(`/order/${order._id}`);
+      navigate(`/order/${order._id}`);
     }
     // eslint-disable-next-line
-  }, [history, success]);
+  }, [navigate, success]);
 
   const placeOrderHandler = () => {
     dispatch(
