@@ -47,3 +47,15 @@ export const userUpdateProfileApi = async (data) => {
 
   return await axios.put(`/api/users/profile`, data.user, config);
 };
+
+export const orderCreateApi = async (data) => {
+  console.log('data:', data);
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${data.token}`,
+    },
+  };
+
+  return await axios.post(`/api/orders`, data.order, config);
+};

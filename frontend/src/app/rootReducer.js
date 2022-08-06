@@ -7,6 +7,7 @@ import userLoginReducer from '../features/user/userLoginSlice';
 import userRegisterReducer from '../features/user/userRegisterSlice';
 import userDetailsReducer from '../features/user/userDetailsSlice';
 import userUpdateProfileReducer from '../features/user/userUpdateProfileSlice';
+import orderCreateReducer from '../features/order/orderCreateSlice';
 
 // import {
 //   orderCreateReducer,
@@ -22,7 +23,7 @@ const rootReducer = combineReducers({
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
-  // orderCreate: orderCreateReducer,
+  orderCreate: orderCreateReducer,
   // orderDetails: orderDetailsReducer,
   // orderPay: orderPayReducer,
 });

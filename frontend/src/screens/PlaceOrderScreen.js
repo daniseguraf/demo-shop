@@ -1,19 +1,20 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import CheckoutSteps from '../components/CheckoutSteps';
-
-import { createOrder } from '../actions/orderActions';
+import { orderCreateStart } from '../features/order/orderCreateSlice';
 
 const PlaceOrderScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const cart = useSelector((state) => state.cart);
+  const cartTemp = useSelector((state) => state.cart);
+  const token = useSelector((state) => state.userLogin.userInfo.token);
 
-  console.log('cart:', cart);
+  const cart = { ...cartTemp };
+  console.log(cart);
 
   // Calculate prices
   const addDecimals = (num) => (Math.round(num * 100) / 100).toFixed(2);
@@ -35,24 +36,37 @@ const PlaceOrderScreen = () => {
   const { success, order, error } = orderCreate;
 
   useEffect(() => {
-    if (success) {
-      navigate(`/order/${order._id}`);
-    }
+    // if (success) {
+    //   navigate(`/order/${order._id}`);
+    // }
     // eslint-disable-next-line
   }, [navigate, success]);
 
+  // console.log('orderItems', cart.cartItems);
+  // console.log('shippingAddress', cart.shippingAddress);
+  // console.log('paymentMethod', cart.paymentMethod);
+  // console.log('itemsPrice', cart.itemsPrice);
+  // console.log('shippingPrice', cart.shippingPrice);
+  // console.log('taxPrice', cart.taxPrice);
+  // console.log('totalPrice', cart.totalPrice);
+  // console.log('token', token);
+
   const placeOrderHandler = () => {
     dispatch(
-      createOrder({
-        orderItems: cart.cartItems,
-        shippingAddress: cart.shippingAddress,
-        paymentMethod: cart.paymentMethod,
-        itemsPrice: cart.itemsPrice,
-        shippingPrice: cart.taxPrice,
-        taxPrice: cart.taxPrice,
-        totalPrice: cart.totalPrice,
+      orderCreateStart({
+        order: {
+          orderItems: cart.cartItems,
+          shippingAddress: cart.shippingAddress,
+          paymentMethod: cart.paymentMethod,
+          itemsPrice: cart.itemsPrice,
+          shippingPrice: cart.shippingPrice,
+          taxPrice: cart.taxPrice,
+          totalPrice: cart.totalPrice,
+        },
+        token,
       })
     );
+    navigate(`/order/${order._id}`);
   };
 
   return (
@@ -84,7 +98,7 @@ const PlaceOrderScreen = () => {
               ) : (
                 <ListGroup variant="flush">
                   {cart.cartItems.map((el, index) => (
-                    <ListGroup.Item key={el.product}>
+                    <ListGroup.Item key={`${el.product}-${index}`}>
                       <Row>
                         <Col md={1}>
                           <Image src={el.image} alt={el.name} fluid rounded />
