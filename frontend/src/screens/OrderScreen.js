@@ -6,7 +6,8 @@ import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { getOrderDetails, payOrder } from '../actions/orderActions';
+import { payOrder } from '../actions/orderActions';
+import { orderDetailsStart } from '../features/order/orderDetailsSlice';
 import { ORDER_PAY_RESET } from '../constants/orderConstants';
 
 const OrderScreen = ({ match, history }) => {
@@ -49,7 +50,7 @@ const OrderScreen = ({ match, history }) => {
     if (!order || successPay || order._id !== orderId) {
       dispatch({ type: ORDER_PAY_RESET });
 
-      dispatch(getOrderDetails(orderId));
+      dispatch(orderDetailsStart(orderId));
     } else if (!order.isPaid) {
       if (!window.paypal) {
         addPayPalScript();

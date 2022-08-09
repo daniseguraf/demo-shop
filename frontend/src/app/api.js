@@ -49,7 +49,6 @@ export const userUpdateProfileApi = async (data) => {
 };
 
 export const orderCreateApi = async (data) => {
-  console.log('data:', data);
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -58,4 +57,14 @@ export const orderCreateApi = async (data) => {
   };
 
   return await axios.post(`/api/orders`, data.order, config);
+};
+
+export const getOrderDetailsApi = async (data) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+  };
+
+  return await axios.get(`/api/orders/${data.id}`, config);
 };
