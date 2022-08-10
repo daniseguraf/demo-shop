@@ -8,11 +8,11 @@ import {
 
 // Workers
 function* onOrderDetailsStart(action) {
-  const { order, token } = action.payload;
+  const { id, token } = action.payload;
 
   try {
-    const response = yield call(getOrderDetailsApi, { order, token });
-    if (response.status === 201) {
+    const response = yield call(getOrderDetailsApi, { id, token });
+    if (response.status === 200) {
       yield put(orderDetailsSuccess(response.data));
     }
   } catch (error) {
@@ -28,6 +28,7 @@ function* onOrderDetailsStart(action) {
 
 // Watchers
 function* onOrderDetails() {
+  console.log('aaaa', orderDetailsStart.type);
   yield takeEvery(orderDetailsStart.type, onOrderDetailsStart);
 }
 

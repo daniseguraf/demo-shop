@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = { orderItems: [], shippingAddress: {} };
+const initialState = { loading: true, orderItems: [], shippingAddress: {} };
 
 const orderDetailsSlice = createSlice({
   name: 'orderDetails',

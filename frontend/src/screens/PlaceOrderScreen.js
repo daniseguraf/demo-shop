@@ -36,9 +36,9 @@ const PlaceOrderScreen = () => {
   const { success, order, error } = orderCreate;
 
   useEffect(() => {
-    // if (success) {
-    //   navigate(`/order/${order._id}`);
-    // }
+    if (success) {
+      navigate(`/order/${order._id}`);
+    }
     // eslint-disable-next-line
   }, [navigate, success]);
 
@@ -66,7 +66,6 @@ const PlaceOrderScreen = () => {
         token,
       })
     );
-    navigate(`/order/${order._id}`);
   };
 
   return (
