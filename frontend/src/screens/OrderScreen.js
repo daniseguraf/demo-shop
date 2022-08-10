@@ -44,27 +44,28 @@ const OrderScreen = () => {
   useEffect(() => {
     dispatch(orderDetailsStart({ id: orderId, token }));
 
-    // const addPayPalScript = async () => {
-    //   const { data: clientId } = await axios.get('/api/config/paypal');
-    //   const script = document.createElement('script');
-    //   script.type = 'text/javascript';
-    //   script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
-    //   script.async = true;
-    //   script.onload = () => {
-    //     setSdkReady(true);
-    //   };
-    //   document.body.appendChild(script);
-    // };
-    // if (!order || successPay || order._id !== orderId) {
-    //   dispatch({ type: ORDER_PAY_RESET });
-    // } else if (!order.isPaid) {
-    //   if (!window.paypal) {
-    //     addPayPalScript();
-    //   } else {
-    //     setSdkReady(true);
-    //   }
-    // }
-  }, []);
+    const addPayPalScript = async () => {
+      const { data: clientId } = await axios.get('/api/config/paypal');
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
+      script.async = true;
+      script.onload = () => {
+        setSdkReady(true);
+      };
+      document.body.appendChild(script);
+    };
+
+    if (!order || successPay || order._id !== orderId) {
+      dispatch({ type: ORDER_PAY_RESET });
+    } else if (!order.isPaid) {
+      if (!window.paypal) {
+        addPayPalScript();
+      } else {
+        setSdkReady(true);
+      }
+    }
+  }, [dispatch, orderId, token]);
 
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult);
