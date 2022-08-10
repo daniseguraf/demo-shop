@@ -9,9 +9,7 @@ import userDetailsReducer from '../features/user/userDetailsSlice';
 import userUpdateProfileReducer from '../features/user/userUpdateProfileSlice';
 import orderCreateReducer from '../features/order/orderCreateSlice';
 import orderDetailsReducer from '../features/order/orderDetailsSlice';
-// import {
-//   orderPayReducer,
-// } from '../reducers/orderReducers';
+import orderPayReducer from '../features/order/orderPaySlice';
 
 const rootReducer = combineReducers({
   products: productsReducer,
@@ -23,7 +21,7 @@ const rootReducer = combineReducers({
   userUpdateProfile: userUpdateProfileReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
-  // orderPay: orderPayReducer,
+  orderPay: orderPayReducer,
 });
 
 export default rootReducer;

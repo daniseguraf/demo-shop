@@ -9,8 +9,6 @@ import {
 // Workers
 function* onOrderCreateStart(action) {
   const { order, token } = action.payload;
-  // console.log('order:', order);
-  // console.log('token:', token);
 
   try {
     const response = yield call(orderCreateApi, { order, token });

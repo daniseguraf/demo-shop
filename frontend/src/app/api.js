@@ -68,3 +68,15 @@ export const getOrderDetailsApi = async (data) => {
 
   return await axios.get(`/api/orders/${data.id}`, config);
 };
+
+export const payOrderApi = async (data) => {
+  const { orderId, userInfo, paymentResult } = data;
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${userInfo.token}`,
+    },
+  };
+
+  return await axios.put(`/api/orders/${orderId}/pay`, paymentResult, config);
+};
