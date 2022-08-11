@@ -28,7 +28,6 @@ function* onOrderDetailsStart(action) {
 
 // Watchers
 function* onOrderDetails() {
-  console.log('aaaa', orderDetailsStart.type);
   yield takeEvery(orderDetailsStart.type, onOrderDetailsStart);
 }
 

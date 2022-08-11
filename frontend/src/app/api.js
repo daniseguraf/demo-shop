@@ -70,11 +70,11 @@ export const getOrderDetailsApi = async (data) => {
 };
 
 export const payOrderApi = async (data) => {
-  const { orderId, userInfo, paymentResult } = data;
+  const { orderId, paymentResult, token } = data;
   const config = {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${userInfo.token}`,
+      Authorization: `Bearer ${token}`,
     },
   };
 

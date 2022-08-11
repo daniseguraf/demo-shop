@@ -6,10 +6,9 @@ import { PayPalButton } from 'react-paypal-button-v2';
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { payOrder } from '../actions/orderActions';
 
 import { orderDetailsStart } from '../features/order/orderDetailsSlice';
-import { ORDER_PAY_RESET } from '../constants/orderConstants';
+import { orderPayStart, orderPayReset } from '../features/order/orderPaySlice';
 
 const OrderScreen = () => {
   const [sdkReady, setSdkReady] = useState(false);
@@ -22,10 +21,8 @@ const OrderScreen = () => {
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
 
-  // console.log(orderId, token);
-
-  // const orderPay = useSelector((state) => state.orderPay);
-  // const { loading: loadingPay, success: successPay } = orderPay;
+  const orderPay = useSelector((state) => state.orderPay);
+  const { loading: loadingPay, success: successPay } = orderPay;
 
   let tempOrder;
 
@@ -42,8 +39,6 @@ const OrderScreen = () => {
   }
 
   useEffect(() => {
-    dispatch(orderDetailsStart({ id: orderId, token }));
-
     const addPayPalScript = async () => {
       const { data: clientId } = await axios.get('/api/config/paypal');
       const script = document.createElement('script');
@@ -57,7 +52,8 @@ const OrderScreen = () => {
     };
 
     if (!order || successPay || order._id !== orderId) {
-      dispatch({ type: ORDER_PAY_RESET });
+      dispatch(orderPayReset());
+      dispatch(orderDetailsStart({ id: orderId, token }));
     } else if (!order.isPaid) {
       if (!window.paypal) {
         addPayPalScript();
@@ -65,11 +61,11 @@ const OrderScreen = () => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, orderId, token]);
+  }, [dispatch, orderId, token, successPay, order]);
 
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult);
-    dispatch(payOrder(orderId, paymentResult));
+    dispatch(orderPayStart({ orderId, paymentResult, token }));
   };
 
   return loading ? (
@@ -184,7 +180,7 @@ const OrderScreen = () => {
                 </Row>
               </ListGroup.Item>
 
-              {/* {!order.isPaid && (
+              {!order.isPaid && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
                   {!sdkReady ? (
@@ -196,7 +192,7 @@ const OrderScreen = () => {
                     />
                   )}
                 </ListGroup.Item>
-              )} */}
+              )}
             </ListGroup>
           </Card>
         </Col>
