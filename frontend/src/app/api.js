@@ -80,3 +80,13 @@ export const payOrderApi = async (data) => {
 
   return await axios.put(`/api/orders/${orderId}/pay`, paymentResult, config);
 };
+
+export const getOrderMyListApi = async (data) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+  };
+
+  return await axios.get(`/api/orders/myorders`, config);
+};

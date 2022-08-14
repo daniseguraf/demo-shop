@@ -1,19 +1,19 @@
 import { takeEvery, put, fork, call } from 'redux-saga/effects';
-import { orderCreateApi } from '../../../app/api';
+import { getOrderMyListApi } from '../../../app/api';
 import {
   orderMyListStart,
   orderMyListSuccess,
   orderMyListFailed,
-} from '../orderCreateSlice';
+} from '../orderMyList/orderMyListSlice';
 
 // Workers
-function* onOrderMyListStart(action) {
-  const { order, token } = action.payload;
+function* workerOrderMyList(action) {
+  const { token } = action.payload;
 
   try {
-    const response = yield call(orderCreateApi, { order, token });
-    console.log('response:', response);
-    if (response.status === 201) {
+    const response = yield call(getOrderMyListApi, { token });
+
+    if (response.status === 200) {
       yield put(orderMyListSuccess(response.data));
     }
   } catch (error) {
@@ -28,8 +28,9 @@ function* onOrderMyListStart(action) {
 }
 
 // Watchers
-function* onOrderMyList() {
-  yield takeEvery(orderMyListStart.type, onOrderMyListStart);
+function* watcherOrderMyList() {
+  console.log('aaa');
+  yield takeEvery(orderMyListStart.type, workerOrderMyList);
 }
 
-export const orderMyListSagas = [fork(onOrderMyList)];
+export const orderMyListSagas = [fork(watcherOrderMyList)];

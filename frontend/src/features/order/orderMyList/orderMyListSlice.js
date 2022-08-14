@@ -17,6 +17,10 @@ const orderMyListSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    orderMyListReset: (state, action) => {
+      state.loading = false;
+      state.orders = action.payload;
+    },
   },
 });
 
