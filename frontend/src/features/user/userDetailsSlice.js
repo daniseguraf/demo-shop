@@ -18,10 +18,17 @@ const userDetailsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    userDetailsReset: (state) => {
+      state.user = {};
+    },
   },
 });
 
-export const { userDetailsStart, userDetailsSuccess, userDetailsFailed } =
-  userDetailsSlice.actions;
+export const {
+  userDetailsStart,
+  userDetailsSuccess,
+  userDetailsFailed,
+  userDetailsReset,
+} = userDetailsSlice.actions;
 
 export default userDetailsSlice.reducer;

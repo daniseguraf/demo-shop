@@ -17,14 +17,17 @@ const orderMyListSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    orderMyListReset: (state, action) => {
-      state.loading = false;
-      state.orders = action.payload;
+    orderMyListReset: (state) => {
+      state.orders = [];
     },
   },
 });
 
-export const { orderMyListStart, orderMyListSuccess, orderMyListFailed } =
-  orderMyListSlice.actions;
+export const {
+  orderMyListStart,
+  orderMyListSuccess,
+  orderMyListFailed,
+  orderMyListReset,
+} = orderMyListSlice.actions;
 
 export default orderMyListSlice.reducer;
