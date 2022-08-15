@@ -90,3 +90,13 @@ export const getOrderMyListApi = async (data) => {
 
   return await axios.get(`/api/orders/myorders`, config);
 };
+
+export const getUserListApi = async (data) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+  };
+
+  return await axios.get(`/api/users`, config);
+};

@@ -11,6 +11,7 @@ import orderCreateReducer from '../features/order/orderCreateSlice';
 import orderDetailsReducer from '../features/order/orderDetailsSlice';
 import orderPayReducer from '../features/order/orderPaySlice';
 import orderMyListReducer from '../features/order/orderMyList/orderMyListSlice';
+import userListReducer from '../features/user/userList/userListSlice';
 
 const rootReducer = combineReducers({
   products: productsReducer,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
+  userList: userListReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,

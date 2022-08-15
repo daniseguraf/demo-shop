@@ -33,6 +33,7 @@ import {
 } from './userUpdateProfileSlice';
 
 import { orderMyListReset } from '../order/orderMyList/orderMyListSlice';
+import { userListReset } from '../user/userList/userListSlice';
 
 // Worker sagas
 function* onUserLoginStart(action) {
@@ -60,6 +61,7 @@ function* onUserLogoutStart() {
   yield localStorage.removeItem('userInfo');
   yield put(userDetailsReset());
   yield put(orderMyListReset());
+  yield put(userListReset());
 }
 
 function* onUserRegisterStart(action) {
