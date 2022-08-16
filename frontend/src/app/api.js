@@ -100,3 +100,13 @@ export const getUserListApi = async (data) => {
 
   return await axios.get(`/api/users`, config);
 };
+
+export const deleteUserApi = async (data) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+  };
+
+  return await axios.delete(`/api/users/${data.id}`, config);
+};

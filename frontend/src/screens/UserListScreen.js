@@ -6,6 +6,7 @@ import { Table, Button } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { userListStart } from '../features/user/userList/userListSlice';
+import { userDeleteStart } from '../features/user/userDelete/userDeleteSlice';
 
 const UserListScreen = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const UserListScreen = () => {
   const { loading, error, users } = userList;
 
   const { userInfo } = useSelector((state) => state.userLogin);
+  const { success } = useSelector((state) => state.userDelete);
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
@@ -22,9 +24,11 @@ const UserListScreen = () => {
     } else {
       navigate('/login');
     }
-  }, [dispatch, navigate, userInfo]);
+  }, [dispatch, navigate, userInfo, success]);
 
-  const deleteHandler = () => {};
+  const deleteHandler = (id) => {
+    dispatch(userDeleteStart({ id, token: userInfo.token }));
+  };
 
   return (
     <>
