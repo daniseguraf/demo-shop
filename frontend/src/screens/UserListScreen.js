@@ -62,7 +62,7 @@ const UserListScreen = () => {
                   )}
                 </td>
                 <td>
-                  <Link to={`/user/${el._id}/edit`}>
+                  <Link to={`/admin/user/${el._id}/edit`}>
                     <Button variant="light" size="sm">
                       <i className="fas fa-edit"></i>
                     </Button>
