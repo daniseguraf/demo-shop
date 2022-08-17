@@ -14,7 +14,6 @@ const PlaceOrderScreen = () => {
   const token = useSelector((state) => state.userLogin.userInfo.token);
 
   const cart = { ...cartTemp };
-  console.log(cart);
 
   // Calculate prices
   const addDecimals = (num) => (Math.round(num * 100) / 100).toFixed(2);
@@ -41,15 +40,6 @@ const PlaceOrderScreen = () => {
     }
     // eslint-disable-next-line
   }, [navigate, success]);
-
-  // console.log('orderItems', cart.cartItems);
-  // console.log('shippingAddress', cart.shippingAddress);
-  // console.log('paymentMethod', cart.paymentMethod);
-  // console.log('itemsPrice', cart.itemsPrice);
-  // console.log('shippingPrice', cart.shippingPrice);
-  // console.log('taxPrice', cart.taxPrice);
-  // console.log('totalPrice', cart.totalPrice);
-  // console.log('token', token);
 
   const placeOrderHandler = () => {
     dispatch(

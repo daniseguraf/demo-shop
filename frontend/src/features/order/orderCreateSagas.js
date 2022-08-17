@@ -12,7 +12,6 @@ function* onOrderCreateStart(action) {
 
   try {
     const response = yield call(orderCreateApi, { order, token });
-    console.log('response:', response);
     if (response.status === 201) {
       yield put(orderCreateSuccess(response.data));
     }

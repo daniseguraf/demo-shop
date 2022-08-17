@@ -69,7 +69,6 @@ function* onUserRegisterStart(action) {
 
   try {
     const response = yield call(userRegisterApi, { name, email, password });
-    console.log(response);
 
     if (response.status === 201) {
       yield delay(250);

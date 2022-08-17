@@ -10,7 +10,6 @@ import {
 function* onOrderPayStart(action) {
   try {
     const response = yield call(payOrderApi, action.payload);
-    console.log('response:', response);
     if (response.status === 200) {
       yield put(orderPaySuccess(response.data));
     }

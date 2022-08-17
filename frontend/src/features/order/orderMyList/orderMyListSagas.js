@@ -29,7 +29,6 @@ function* workerOrderMyList(action) {
 
 // Watchers
 function* watcherOrderMyList() {
-  console.log('aaa');
   yield takeEvery(orderMyListStart.type, workerOrderMyList);
 }
 
