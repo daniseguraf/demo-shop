@@ -110,3 +110,16 @@ export const deleteUserApi = async (data) => {
 
   return await axios.delete(`/api/users/${data.id}`, config);
 };
+
+export const userUpdateApi = async (data) => {
+  const { id, user, token } = data;
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return await axios.put(`/api/users/${id}`, user, config);
+};
