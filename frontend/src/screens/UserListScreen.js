@@ -20,7 +20,6 @@ const UserListScreen = () => {
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
-      console.log('aaa');
       dispatch(userListStart({ token: userInfo.token }));
     } else {
       navigate('/login');

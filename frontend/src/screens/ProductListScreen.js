@@ -5,14 +5,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { getProductsStart } from '../features/products/productsSlice';
+import {
+  getProductsStart,
+  deleteProductStart,
+} from '../features/products/productsSlice';
 
 const ProductListScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { userInfo } = useSelector((state) => state.userLogin);
-  const { loading, error, productList } = useSelector(
+  const { loading, error, productList, success } = useSelector(
     (state) => state.products
   );
 
@@ -22,14 +25,14 @@ const ProductListScreen = () => {
     } else {
       navigate('/login');
     }
-  }, [dispatch, navigate, userInfo]);
+  }, [dispatch, navigate, userInfo, success]);
 
   const createProductHandler = () => {
     //Create product
   };
 
   const deleteHandler = (id) => {
-    // dispatch(userDeleteStart({ id, token: userInfo.token }));
+    dispatch(deleteProductStart({ id, token: userInfo.token }));
   };
 
   return (
@@ -45,8 +48,9 @@ const ProductListScreen = () => {
         </Col>
       </Row>
 
-      {loading && <Loader />}
-      {error ? (
+      {loading ? (
+        <Loader />
+      ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (
         <Table striped bordered hover responsive className="table-sm">

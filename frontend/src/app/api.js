@@ -123,3 +123,13 @@ export const userUpdateApi = async (data) => {
 
   return await axios.put(`/api/users/${id}`, user, config);
 };
+
+export const deleteProductApi = async (data) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+  };
+
+  return await axios.delete(`/api/products/${data.id}`, config);
+};
