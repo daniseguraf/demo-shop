@@ -1,5 +1,9 @@
 import { takeEvery, put, delay, fork, call } from 'redux-saga/effects';
-import { getProductsApi, deleteProductApi } from '../../app/api';
+import {
+  getProductsApi,
+  deleteProductApi,
+  productCreateApi,
+} from '../../app/api';
 import {
   getProductsStart,
   getProductsSuccess,
@@ -7,6 +11,9 @@ import {
   deleteProductStart,
   deleteProductSuccess,
   deleteProductFailed,
+  productCreateStart,
+  productCreateSuccess,
+  productCreateFailed,
 } from './productsSlice';
 
 // Worker sagas
@@ -30,7 +37,6 @@ function* workerGetProductsStart() {
 }
 
 function* workerDeleteProductStart(action) {
-  console.log(action.payload);
   const { id, token } = action.payload;
 
   try {
@@ -52,6 +58,27 @@ function* workerDeleteProductStart(action) {
   }
 }
 
+function* workerProductCreateStart(action) {
+  const { user, token } = action.payload;
+
+  try {
+    const response = yield call(productCreateApi, { user, token });
+
+    if (response.status === 201) {
+      yield delay(250);
+      yield put(productCreateSuccess(response.data));
+    }
+  } catch (error) {
+    yield put(
+      productCreateFailed(
+        error?.response?.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    );
+  }
+}
+
 // Watcher sagas
 function* watcherGetProducts() {
   yield takeEvery(getProductsStart.type, workerGetProductsStart);
@@ -61,7 +88,12 @@ function* watcherDeleteProduct() {
   yield takeEvery(deleteProductStart.type, workerDeleteProductStart);
 }
 
+function* watcherProductCreate() {
+  yield takeEvery(productCreateStart.type, workerProductCreateStart);
+}
+
 export const productsSagas = [
   fork(watcherGetProducts),
   fork(watcherDeleteProduct),
+  fork(watcherProductCreate),
 ];

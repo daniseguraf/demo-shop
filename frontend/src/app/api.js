@@ -133,3 +133,13 @@ export const deleteProductApi = async (data) => {
 
   return await axios.delete(`/api/products/${data.id}`, config);
 };
+
+export const productCreateApi = async (data) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${data.token}`,
+    },
+  };
+  return await axios.post('/api/products', data.user, config);
+};

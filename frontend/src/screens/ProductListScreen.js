@@ -8,6 +8,7 @@ import Message from '../components/Message';
 import {
   getProductsStart,
   deleteProductStart,
+  productCreateStart,
 } from '../features/products/productsSlice';
 
 const ProductListScreen = () => {
@@ -28,7 +29,7 @@ const ProductListScreen = () => {
   }, [dispatch, navigate, userInfo, success]);
 
   const createProductHandler = () => {
-    //Create product
+    dispatch(productCreateStart({ user: userInfo, token: userInfo.token }));
   };
 
   const deleteHandler = (id) => {
