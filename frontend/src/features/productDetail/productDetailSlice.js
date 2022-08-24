@@ -17,6 +17,17 @@ const productDetailSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    updateProductDetailStart: (state) => {
+      state.loading = true;
+    },
+    updateProductDetailSuccess: (state, action) => {
+      state.loading = false;
+      state.product = action.payload;
+    },
+    updateProductDetailFailed: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -24,6 +35,9 @@ export const {
   getProductDetailStart,
   getProductDetailSuccess,
   getProductDetailFailed,
+  updateProductDetailStart,
+  updateProductDetailSuccess,
+  updateProductDetailFailed,
 } = productDetailSlice.actions;
 
 export default productDetailSlice.reducer;

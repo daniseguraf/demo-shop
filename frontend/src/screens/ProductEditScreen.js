@@ -5,62 +5,81 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
 import Loader from '../components/Loader';
-import { getProductDetailStart } from '../features/productDetail/productDetailSlice';
+import {
+  getProductDetailStart,
+  updateProductDetailStart,
+} from '../features/productDetail/productDetailSlice';
 
 const ProductEditScreen = () => {
   const [name, setName] = useState('');
+  const [price, setPrice] = useState(0);
+  const [image, setImage] = useState('');
   const [brand, setBrand] = useState('');
   const [category, setCategory] = useState('');
+  const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState('');
-  const [price, setPrice] = useState();
-  const [countInStock, setCountInStock] = useState('');
-  const [isAdmin, setIsAdmin] = useState(false);
 
   const dispatch = useDispatch();
   const params = useParams();
   const navigate = useNavigate();
 
-  const { loading, user, error } = useSelector((state) => state.userDetails);
+  const { loading, error, product } = useSelector(
+    (state) => state.productDetail
+  );
   const { token } = useSelector((state) => state.userLogin.userInfo);
-  const { success } = useSelector((state) => state.userUpdate);
+  // const { success } = useSelector((state) => state.userUpdate);
 
   useEffect(() => {
-    if (success) {
-      dispatch(userUpdateReset());
-      navigate('/admin/userlist');
+    if (!product.name || product._id !== params.id) {
+      dispatch(getProductDetailStart({ id: params.id, token }));
     } else {
-      if (!user.name || user._id !== params.id) {
-        dispatch(userDetailsStart({ id: params.id, token }));
-      } else {
-        setName(user.name);
-        setEmail(user.email);
-        setIsAdmin(user.isAdmin);
-      }
+      setName(product.name);
+      setPrice(product.price);
+      setImage(product.image);
+      setBrand(product.brand);
+      setCategory(product.category);
+      setCountInStock(product.countInStock);
+      setDescription(product.description);
     }
   }, [
     dispatch,
     token,
     params.id,
-    user.name,
-    user.email,
-    user.isAdmin,
-    user._id,
-    success,
-    navigate,
+    product._id,
+    product.name,
+    product.price,
+    product.image,
+    product.brand,
+    product.category,
+    product.countInStock,
+    product.description,
   ]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const user = { name, email, isAdmin };
-    if (name && email) {
-      dispatch(userUpdateStart({ id: params.id, user, token }));
-    }
+    const updatedFields = {
+      name,
+      price,
+      brand,
+      category,
+      countInStock,
+      description,
+    };
+    dispatch(
+      updateProductDetailStart({
+        id: params.id,
+        product: updatedFields,
+        token,
+        navigate,
+      })
+    );
+    // if (name && price && brand && category && countInStock && description) {
+    // }
   };
 
   return (
     <>
-      <Link to="/admin/userlist" className="btn btn-light my-3">
+      <Link to="/admin/productlist" className="btn btn-light my-3">
         Go Back
       </Link>
       <FormContainer>
@@ -81,23 +100,63 @@ const ProductEditScreen = () => {
             </Form.Group>
 
             <br />
-            <Form.Group controlId="email">
+            <Form.Group controlId="price">
+              <Form.Label>Price</Form.Label>
+              <Form.Control
+                type="number"
+                value={price}
+                onChange={(e) => setPrice(+e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <br />
+            <Form.Group controlId="image">
+              <Form.Label>Image</Form.Label>
+              <Form.Control
+                type="text"
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <br />
+            <Form.Group controlId="brand">
               <Form.Label>Brand</Form.Label>
               <Form.Control
-                type="email"
+                type="text"
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
             <br />
-            <Form.Group controlId="isAdmin">
-              <Form.Check
-                type="checkbox"
-                label="Is admin"
-                checked={isAdmin}
-                onChange={(e) => setIsAdmin(e.target.checked)}
-              ></Form.Check>
+            <Form.Group controlId="category">
+              <Form.Label>Category</Form.Label>
+              <Form.Control
+                type="text"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+            <br />
+
+            <Form.Group controlId="countInStock">
+              <Form.Label>Count in stock</Form.Label>
+              <Form.Control
+                type="number"
+                value={countInStock}
+                onChange={(e) => setCountInStock(+e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+            <br />
+
+            <Form.Group controlId="description">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                type="text"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              ></Form.Control>
             </Form.Group>
 
             <br />

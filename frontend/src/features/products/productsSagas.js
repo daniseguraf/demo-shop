@@ -63,10 +63,11 @@ function* workerProductCreateStart(action) {
 
   try {
     const response = yield call(productCreateApi, { user, token });
-
+    console.log(response.data);
     if (response.status === 201) {
       yield delay(250);
       yield put(productCreateSuccess(response.data));
+      action.payload.navigate(`/admin/product/${response.data._id}/edit`);
     }
   } catch (error) {
     yield put(

@@ -143,3 +143,17 @@ export const productCreateApi = async (data) => {
   };
   return await axios.post('/api/products', data.user, config);
 };
+
+export const productUpdateApi = async (data) => {
+  console.log(data);
+  const { id, product, token } = data;
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return await axios.put(`/api/products/${id}`, product, config);
+};

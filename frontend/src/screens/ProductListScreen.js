@@ -29,7 +29,9 @@ const ProductListScreen = () => {
   }, [dispatch, navigate, userInfo, success]);
 
   const createProductHandler = () => {
-    dispatch(productCreateStart({ user: userInfo, token: userInfo.token }));
+    dispatch(
+      productCreateStart({ user: userInfo, token: userInfo.token, navigate })
+    );
   };
 
   const deleteHandler = (id) => {
