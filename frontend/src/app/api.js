@@ -145,7 +145,6 @@ export const productCreateApi = async (data) => {
 };
 
 export const productUpdateApi = async (data) => {
-  console.log(data);
   const { id, product, token } = data;
 
   const config = {

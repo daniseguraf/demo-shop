@@ -53,5 +53,3 @@ export const productsDetailSagas = [
   fork(watcherGetProductDetail),
   fork(watcherUpdateProductDetail),
 ];
-
-//Airpods Wireless Bluetooth HeadphonesXiomi
