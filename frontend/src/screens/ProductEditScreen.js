@@ -29,7 +29,6 @@ const ProductEditScreen = () => {
     (state) => state.productDetail
   );
   const { token } = useSelector((state) => state.userLogin.userInfo);
-  // const { success } = useSelector((state) => state.userUpdate);
 
   useEffect(() => {
     if (!product.name || product._id !== params.id) {
@@ -63,6 +62,7 @@ const ProductEditScreen = () => {
       name,
       price,
       brand,
+      image,
       category,
       countInStock,
       description,
@@ -75,8 +75,6 @@ const ProductEditScreen = () => {
         navigate,
       })
     );
-    // if (name && price && brand && category && countInStock && description) {
-    // }
   };
 
   const uploadFileHandler = async (e) => {

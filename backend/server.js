@@ -23,10 +23,10 @@ app.get('/', (req, res) => res.send(`API running on ${PORT}`));
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/upload', uploadRoutes);
 app.get('/api/config/paypal', (req, res) =>
   res.send(process.env.PAYPAL_CLIENT)
 );
-app.use('/api/upload', uploadRoutes);
 
 const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
