@@ -156,3 +156,13 @@ export const productUpdateApi = async (data) => {
 
   return await axios.put(`/api/products/${id}`, product, config);
 };
+
+export const getOrdersApi = async (data) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+    },
+  };
+
+  return await axios.get(`/api/orders`, config);
+};
