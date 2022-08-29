@@ -166,3 +166,15 @@ export const getOrdersApi = async (data) => {
 
   return await axios.get(`/api/orders`, config);
 };
+
+export const deliverOrderApi = async (data) => {
+  const { id, token } = data;
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return await axios.get(`/api/orders/${id}/deliver`, config);
+};

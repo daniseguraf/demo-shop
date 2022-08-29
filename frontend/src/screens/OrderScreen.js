@@ -7,7 +7,10 @@ import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 
-import { orderDetailsStart } from '../features/order/orderDetailsSlice';
+import {
+  orderDetailsStart,
+  orderDeliverStart,
+} from '../features/order/orderDetailsSlice';
 import { orderPayStart, orderPayReset } from '../features/order/orderPaySlice';
 
 const OrderScreen = () => {
@@ -15,9 +18,10 @@ const OrderScreen = () => {
 
   const dispatch = useDispatch();
   const params = useParams();
+  const navigate = useNavigate();
   const orderId = params.id;
 
-  const token = useSelector((state) => state.userLogin.userInfo.token);
+  const { userInfo } = useSelector((state) => state.userLogin);
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
 
@@ -39,6 +43,9 @@ const OrderScreen = () => {
   }
 
   useEffect(() => {
+    if (!userInfo) {
+      navigate('login');
+    }
     const addPayPalScript = async () => {
       const { data: clientId } = await axios.get('/api/config/paypal');
       const script = document.createElement('script');
@@ -53,7 +60,7 @@ const OrderScreen = () => {
 
     if (!order || successPay || order._id !== orderId) {
       dispatch(orderPayReset());
-      dispatch(orderDetailsStart({ id: orderId, token }));
+      dispatch(orderDetailsStart({ id: orderId, token: userInfo.token }));
     } else if (!order.isPaid) {
       if (!window.paypal) {
         addPayPalScript();
@@ -61,10 +68,10 @@ const OrderScreen = () => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, orderId, token, successPay, order]);
+  }, [dispatch, orderId, userInfo, successPay, order]);
 
   const successPaymentHandler = (paymentResult) => {
-    dispatch(orderPayStart({ orderId, paymentResult, token }));
+    dispatch(orderPayStart({ orderId, paymentResult, token: userInfo.token }));
   };
 
   return loading ? (
@@ -192,6 +199,28 @@ const OrderScreen = () => {
                   )}
                 </ListGroup.Item>
               )}
+
+              {userInfo &&
+                userInfo.isAdmin &&
+                order.isPaid &&
+                !order.isDelivered && (
+                  <ListGroup.Item>
+                    <Button
+                      type="button"
+                      className="btn btn-block"
+                      onClick={() =>
+                        dispatch(
+                          orderDeliverStart({
+                            id: order._id,
+                            token: userInfo.token,
+                          })
+                        )
+                      }
+                    >
+                      Mark As Delivered
+                    </Button>
+                  </ListGroup.Item>
+                )}
             </ListGroup>
           </Card>
         </Col>
