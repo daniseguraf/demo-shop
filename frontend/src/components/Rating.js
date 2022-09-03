@@ -1,6 +1,7 @@
 import React from 'react';
 
 const Rating = ({ value, text, color = '#f8e825' }) => {
+  console.log(value);
   return (
     <div className="rating">
       <span>

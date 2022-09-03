@@ -178,3 +178,14 @@ export const deliverOrderApi = async (data) => {
 
   return await axios.get(`/api/orders/${id}/deliver`, config);
 };
+
+export const productCreateReviewApi = async ({ productId, review, token }) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return await axios.post(`/api/products/${productId}/reviews`, review, config);
+};

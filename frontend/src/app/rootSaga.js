@@ -11,6 +11,7 @@ import { userListSagas } from '../features/user/userList/userListSagas';
 import { userDeleteSagas } from '../features/user/userDelete/userDeleteSagas';
 import { userUpdateSagas } from '../features/user/userUpdate/userUpdateSagas';
 import { ordersListSagas } from '../features/order/ordersList/ordersListSagas';
+import { productCreateReviewSagas } from '../features/products/productCreateReview/productCreateReviewSagas';
 
 export default function* rootSaga() {
   yield all([
@@ -26,5 +27,6 @@ export default function* rootSaga() {
     ...userDeleteSagas,
     ...userUpdateSagas,
     ...ordersListSagas,
+    ...productCreateReviewSagas,
   ]);
 }

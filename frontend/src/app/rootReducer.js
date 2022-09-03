@@ -15,10 +15,12 @@ import userListReducer from '../features/user/userList/userListSlice';
 import userDeleteReducer from '../features/user/userDelete/userDeleteSlice';
 import userUpdateReducer from '../features/user/userUpdate/userUpdateSlice';
 import ordersListReducer from '../features/order/ordersList/ordersListSlice';
+import productCreateReviewReducer from '../features/products/productCreateReview/productCreateReviewSlice';
 
 const rootReducer = combineReducers({
   products: productsReducer,
   productDetail: productDetailReducer,
+  productCreateReview: productCreateReviewReducer,
   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
