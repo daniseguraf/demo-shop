@@ -36,7 +36,7 @@ const ProductScreen = () => {
   const { userInfo } = useSelector((state) => state.userLogin);
 
   const {
-    loading: lodingProductReview,
+    // loading: lodingProductReview,
     success: successProductReview,
     error: errorProductReview,
   } = useSelector((state) => state.productCreateReview);

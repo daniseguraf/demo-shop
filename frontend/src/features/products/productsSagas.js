@@ -17,9 +17,9 @@ import {
 } from './productsSlice';
 
 // Worker sagas
-function* workerGetProductsStart() {
+function* workerGetProductsStart(action) {
   try {
-    const response = yield call(getProductsApi);
+    const response = yield call(getProductsApi, action.payload);
 
     if (response.status === 200) {
       yield delay(250);
@@ -41,7 +41,6 @@ function* workerDeleteProductStart(action) {
 
   try {
     const response = yield call(deleteProductApi, { id, token });
-    console.log(response);
 
     if (response.status === 200) {
       yield delay(250);
