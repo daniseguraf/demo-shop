@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-export const getProductsApi = async ({ keyword }) => {
-  return await axios.get(`/api/products?keyword=${keyword}`);
+export const getProductsApi = async ({ keyword, pageNumber = '' }) => {
+  return await axios.get(
+    `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
+  );
 };
 
 export const getProductDetailApi = async (id) => {

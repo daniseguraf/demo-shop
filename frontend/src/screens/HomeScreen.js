@@ -7,19 +7,21 @@ import { Row, Col } from 'react-bootstrap';
 import Product from './../components/Product';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Paginate from '../components/Paginate';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const params = useParams();
   const keyword = params.keyword || '';
+  const pageNumber = params.pageNumber || 1;
 
-  const { loading, error, productList } = useSelector(
+  const { loading, error, productList, page, pages } = useSelector(
     (state) => state.products
   );
 
   useEffect(() => {
-    dispatch(getProductsStart({ keyword }));
-  }, [dispatch, keyword]);
+    dispatch(getProductsStart({ keyword, pageNumber }));
+  }, [dispatch, keyword, pageNumber]);
 
   return (
     <>
@@ -29,13 +31,20 @@ const HomeScreen = () => {
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (
-        <Row>
-          {productList.map((el) => (
-            <Col key={el._id} sm={12} md={6} lg={4}>
-              <Product {...el} />
-            </Col>
-          ))}
-        </Row>
+        <>
+          <Row>
+            {productList.map((el) => (
+              <Col key={el._id} sm={12} md={6} lg={4}>
+                <Product {...el} />
+              </Col>
+            ))}
+          </Row>
+          <Paginate
+            pages={pages}
+            page={page}
+            keyword={keyword ? keyword : ''}
+          />
+        </>
       )}
     </>
   );
